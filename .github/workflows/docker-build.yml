@@ -1,0 +1,23 @@
+name: Docker Build Check
+
+# Pipeline se pokreće automatski na svaki push u main granu
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Korak: Preuzmi kod iz repozitorijuma na GitHub server
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Korak: Pokreni Docker build da provjerimo da li je Dockerfile ispravan
+    - name: Build the Docker image
+      run: |
+        docker build -t uptime-monitor-check:latest .
+        echo "Docker image ispiše uspješno build-ana na GitHub Actions serveru!"
