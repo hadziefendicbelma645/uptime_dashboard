@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-# Web stranice koje naš DevOps dashboard nadgleda
+# Web stranice koje DevOps dashboard nadgleda
 SITES = [
     "https://google.com", 
     "https://github.com", 
@@ -12,7 +12,7 @@ SITES = [
 
 def check_site_status(url):
     try:
-        # Šaljemo brzinski zahtjev stranici (čekamo najviše 3 sekunde)
+        # Šaljem zahtjev stranici (najviše 3 sekunde)
         response = requests.get(url, timeout=3)
         if response.status_code == 200:
             return "UP"
@@ -23,12 +23,12 @@ def check_site_status(url):
 
 @app.route('/')
 def home():
-    # Provjeravamo status za svaku stranicu sa liste
+    # Provjeravam status za svaku stranicu sa liste
     results = {}
     for site in SITES:
         results[site] = check_site_status(site)
     
-    # HTML i CSS izgled naše stranice (skockan direktno u kodu radi jednostavnosti)
+    # HTML i CSS izgled stranice 
     html_template = """
     <!DOCTYPE html>
     <html>
@@ -61,5 +61,5 @@ def home():
     return render_template_string(html_template, results=results)
 
 if __name__ == '__main__':
-    # Pokrećemo server lokalno na portu 5000
+    # Pokretanje servera lokalno na portu 5000
     app.run(host='0.0.0.0', port=5000, debug=True)
